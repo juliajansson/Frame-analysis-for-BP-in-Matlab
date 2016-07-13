@@ -1,16 +1,17 @@
 function [rgb] = Contrast(i)
-%Används för kontrastförstärkning
-t(i,:)= ['a' num2str(i) '.png'];
-filename=['/Users/samueltober/Desktop/Referens_filmer/Bea/121_75/' t(i,:)]
-
-y=imread(filename);
+%This function normalizes and splits the layers
+t(i,:)= ['a' num2str(i) '.png']; %Reads in pictures starting with a and then a number, such as a1.png
+filename=['Directory' t(i,:)]; 
+y=imread(filename); %Reads in pictures from a given Directory at the computer
 
 y=double(y);
 
+%Separates the r, g and b layers
 b=y(:,:,3);
 g=y(:,:,2);
 r=y(:,:,1);
 
+%Normalizes
 r=r/max(max(r));
 g=g/max(max(g));
 b=b/max(max(b));
