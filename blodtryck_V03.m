@@ -1,4 +1,4 @@
-%1 For loop cropping out the two patches, and separating them into the three R, G and B layers.
+%1 For loop cropping out the two patches, and separating them into the three R, G and B layers, with help of functions Contrast and RGB.
 for i=1:1200
     pic=Contrast(i); 
     rgb=RGB(pic,300,400); %Cropping a patch at the wrist
