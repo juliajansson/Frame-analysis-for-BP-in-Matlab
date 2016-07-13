@@ -135,7 +135,7 @@ framediffsB = [framediffsB,I];
 
 end
 %%
-%Plotting the framediffs
+%5 Plotting the framediffs
 figure(18);
 plot(framediffsB,'b'); hold on;
 
