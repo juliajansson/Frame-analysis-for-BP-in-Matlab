@@ -1,6 +1,7 @@
+%1 For loop cropping out the two patches, and separating them into the three R, G and B layers.
 for i=1:1200
     pic=Contrast(i); 
-    rgb=RGB(pic,300,400); %Armveck koordinater
+    rgb=RGB(pic,300,400); %Cropping a patch at the wrist
     
     r_1(i)=rgb(1,:);
     g_1(i)=rgb(2,:);
@@ -9,7 +10,7 @@ end
 
 for i=1:1200
     pic=Contrast(i); 
-    rgb=RGB(pic,1000,1100); %Handled koordinater
+    rgb=RGB(pic,1000,1100); %Cropping a patch at the bend of the arm
     
     r_2(i)=rgb(1,:);
     g_2(i)=rgb(2,:);
@@ -17,13 +18,15 @@ for i=1:1200
 end  
 
 %%
-
+%2.1 Normalising the matrices for the two patches for the red layer
 R1 = r_1;
 R2 = r_2;
 
 R1 = (R1-mean(R1))/std(R1);
 R2 = (R2-mean(R2))/std(R2);
 
+%%
+%2.2 Adapting a Fourier series to the normalized data
 framediffsR = [];
 
 for i = 1:200
@@ -41,6 +44,8 @@ for j=-10:10
 end
 
 %figure(2); plot(a,'g'); hold on; plot(b,'k'); xlim([1,length(a)]); hold off;
+%%
+%2.3 Adapting a second degree polinomial to the resulting difference between the graphs squared
 
 parabola = polyfit(1:length(diffs),diffs,2);
 inp = linspace(1,length(diffs),10000);
@@ -55,6 +60,7 @@ figure(18); hold off;
 plot(framediffsR,'r'); hold on;
 
 %%
+%3 Doing the same procedure (2.1-2.3) for the green layer
 
 G1 = g_1;
 G2 = g_2;
@@ -93,6 +99,7 @@ figure(18);
 plot(framediffsG,'g'); hold on;
 
 %%
+%4 Doing the same procedure (2.1-2.3) for the blue layer
 
 B1 = b_1;
 B2 = b_2;
@@ -127,6 +134,8 @@ I = I/length(inp)*21-10;
 framediffsB = [framediffsB,I];
 
 end
+%%
+%Plotting the framediffs
 figure(18);
 plot(framediffsB,'b'); hold on;
 
